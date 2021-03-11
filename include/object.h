@@ -46,19 +46,24 @@ namespace peanut::peautils
 				projpoints[i] = projp;
 			}
 
-			SDL_SetRenderDrawColor(gfx.getrend(), 255, 255, 255, 255);
+			gfx.reset_texbuf();
 
 			for (auto& t : m.tris)
 			{
-				
-				gfx.draw_wireframe_triangle(projpoints[t.indexes[0]], projpoints[t.indexes[1]], projpoints[t.indexes[2]]);
+				gfx.draw_filled_triangle(
+					{ projpoints[t.indexes[0]], projpoints[t.indexes[1]], projpoints[t.indexes[2]] },
+					{ origpoints[t.indexes[0]], origpoints[t.indexes[1]], origpoints[t.indexes[2]] },
+					xb
+				);
 			}
 
-			SDL_SetRenderDrawColor(gfx.getrend(), 0, 0, 0, 255);
+			gfx.update_texture();
 		}
 
 	private:
 		float x, y, z;
+		boundsarray xb;
+
 		peautils::mesh m;
 	};
 }

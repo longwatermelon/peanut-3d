@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <array>
 
 
 namespace peanut::peautils
@@ -31,6 +32,16 @@ namespace peanut::peautils
 	struct matrix3
 	{
 		float m[3][3];
+	};
+
+	struct pointgrp
+	{
+		point p0, p1, p2;
+	};
+
+	struct boundsarray
+	{
+		std::vector<float> l{ 0 }, r{ 0 };
 	};
 
 
@@ -134,5 +145,35 @@ namespace peanut::peautils
 		} };
 
 		return mat;
+	}
+
+
+	void swap_points(point& p1, point& p2)
+	{
+		point temp = p2;
+		p2 = p1;
+		p1 = temp;
+	}
+
+
+	void interpolate(point p0, point p1, std::vector<float>& vx, int w)
+	{
+		if ((int)p0.y < (int)p1.y)
+		{
+			float slope = (p1.x - p0.x) / (p1.y - p0.y);
+
+			if (p0.y < 0.0f) p0.y = 0.0f;
+			if (p1.y > 1000.0f) p1.y = 1000.0f;
+
+			for (float y = p0.y; y < p1.y; ++y)
+			{
+				float x = p0.x + (slope * (y - p0.y));
+
+				if (x < 0) x = 0;
+				if (x > 1000) x = 1000;
+
+				vx[(int)y] = x;
+			}
+		}
 	}
 }

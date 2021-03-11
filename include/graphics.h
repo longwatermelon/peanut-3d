@@ -20,6 +20,8 @@ namespace peanut::peautils
 
 			tex = SDL_CreateTexture(rend, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, screen_w, screen_h);
 			texbuf = new uint32_t[screen_w * screen_h];
+
+			fullscreen_rect = { 0, 0, w, h };
 		}
 
 		~Graphics()
@@ -42,6 +44,66 @@ namespace peanut::peautils
 		}
 
 
+		void draw_filled_triangle(pointgrp ps, pointgrp ops, boundsarray& xb)
+		{
+			// sort all points from lowest to highest y
+			if (ps.p1.y < ps.p0.y)
+			{
+				swap_points(ps.p1, ps.p0);
+				swap_points(ops.p1, ops.p0);
+			}
+
+			if (ps.p2.y < ps.p0.y)
+			{
+				swap_points(ps.p2, ps.p0);
+				swap_points(ops.p2, ops.p0);
+			}
+
+			if (ps.p2.y < ps.p1.y)
+			{
+				swap_points(ps.p2, ps.p1);
+				swap_points(ops.p2, ops.p1);
+			}
+
+			xb.l = std::vector<float>(screen_w);
+			xb.r = std::vector<float>(screen_h);
+
+			interpolate({ ps.p0.x, ps.p0.y, 1.f / ops.p0.z }, { ps.p1.x, ps.p1.y, 1.f / ops.p1.z }, xb.l, screen_w);
+			interpolate({ ps.p1.x, ps.p1.y, 1.f / ops.p1.z }, { ps.p2.x, ps.p2.y, 1.f / ops.p2.z }, xb.l, screen_w);
+			interpolate({ ps.p0.x, ps.p0.y, 1.f / ops.p0.z }, { ps.p2.x, ps.p2.y, 1.f / ops.p2.z }, xb.r, screen_w);
+
+			if (ps.p2.y > 1000) ps.p2.y = 1000;
+			if (ps.p0.y < 0) ps.p0.y = 0;
+
+			for (int y = (int)ps.p0.y; y < (int)ps.p2.y; ++y)
+			{
+				int minx = std::min(xb.l[y], xb.r[y]);
+				int maxx = std::max(xb.l[y], xb.r[y]);
+
+				for (int i = minx; i < maxx; ++i)
+				{
+					texbuf[y * 1000 + i] = 0x00000000 | 255 << 16 | 255 << 8 | 255;
+				}
+			}
+		}
+
+
+		void reset_texbuf()
+		{
+			for (int i = 0; i < screen_w * screen_h; ++i)
+			{
+				texbuf[i] = 0x000000;
+			}
+		}
+
+		void update_texture()
+		{
+			SDL_UpdateTexture(tex, 0, texbuf, screen_w * sizeof(uint32_t));
+
+			SDL_RenderCopy(rend, tex, 0, &fullscreen_rect);
+		}
+
+
 		int getw() { return screen_w; }
 		int geth() { return screen_h; }
 
@@ -55,5 +117,7 @@ namespace peanut::peautils
 
 		SDL_Texture* tex;
 		uint32_t* texbuf;
+
+		SDL_Rect fullscreen_rect;
 	};
 }

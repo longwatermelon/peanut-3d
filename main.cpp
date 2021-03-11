@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 	bool running = true;
 	SDL_Event evt;
 
-	peanut::new_object(-1, 0, 3, "meshfiles/cube.facet");
+	peanut::new_object(-0.5, 0, 3, "meshfiles/cube.facet");
 
 	while (running)
 	{
@@ -20,6 +20,12 @@ int main(int argc, char** argv)
 			switch (evt.type)
 			{
 			case SDL_QUIT: running = false; break;
+			case SDL_KEYDOWN:
+				switch (evt.key.keysym.sym)
+				{
+				case SDLK_UP: cam.y += 0.1f; break;
+				case SDLK_DOWN: cam.y -= 0.1f; break;
+				}
 			}
 		}
 
