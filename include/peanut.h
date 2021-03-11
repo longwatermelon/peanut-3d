@@ -6,7 +6,6 @@
 namespace peanut
 {
 	std::unique_ptr<peautils::Graphics> gfx;
-	std::vector<peautils::Object> objects;
 
 	peautils::matrix4 mproj;
 	peautils::matrix3 roty;
@@ -20,17 +19,8 @@ namespace peanut
 	}
 
 
-	void new_object(float x, float y, float z, const char* path)
+	void render(Camera& cam, std::vector<Object>& objects)
 	{
-		objects.push_back(peautils::Object(x, y, z, path));
-	}
-
-
-	void render(Camera& cam)
-	{
-		SDL_RenderClear(gfx->getrend());
-		gfx->reset_texbuf();
-
 		rotx = { {
 			{1, 0, 0},
 			{0, cosf(cam.va), sinf(cam.va)},
@@ -47,7 +37,17 @@ namespace peanut
 			o.project(*gfx, mproj, rotx, roty, cam);
 
 		gfx->update_texture();
+	}
 
+
+	void clear_screen()
+	{
+		SDL_RenderClear(gfx->getrend());
+		gfx->reset_texbuf();
+	}
+
+	void update_screen()
+	{
 		SDL_RenderPresent(gfx->getrend());
 	}
 }

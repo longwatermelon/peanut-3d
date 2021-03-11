@@ -5,15 +5,17 @@
 #include <string>
 
 
-namespace peanut::peautils
+namespace peanut
 {
+	using namespace peautils;
+
 	class Object
 	{
 	public:
 		Object(float x, float y, float z, const char* path)
 			: x(x), y(y), z(z)
 		{
-			m = peautils::read_facet(path);
+			m = read_facet(path);
 		}
 
 
@@ -71,6 +73,6 @@ namespace peanut::peautils
 		boundsarray xb;
 		boundsarray zb;
 
-		peautils::mesh m;
+		mesh m;
 	};
 }

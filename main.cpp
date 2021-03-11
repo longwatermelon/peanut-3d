@@ -11,7 +11,8 @@ int main(int argc, char** argv)
 	bool running = true;
 	SDL_Event evt;
 
-	peanut::new_object(-0.5, 0, 15, "meshfiles/donut.facet");
+	std::vector<peanut::Object> cubes;
+	std::vector<peanut::Object> donuts;
 
 	while (running)
 	{
@@ -33,14 +34,19 @@ int main(int argc, char** argv)
 				case SDLK_DOWN: cam.va += 0.1f; break;
 				case SDLK_RIGHT: cam.ha += 0.1f; break;
 				case SDLK_LEFT: cam.ha -= 0.1f; break;
-				case SDLK_0: peanut::objects.clear(); break;
-				case SDLK_1: peanut::new_object(-cam.x, -cam.y, cam.z + 4, "meshfiles/cube.facet"); break;
-				case SDLK_2: peanut::new_object(-cam.x, -cam.y, cam.z + 4, "meshfiles/donut.facet"); break;
+				case SDLK_0: cubes.clear(); break;
+				case SDLK_1: cubes.push_back(peanut::Object(-cam.x, -cam.y, -cam.z + 4, "meshfiles/cube.facet")); break;
+				case SDLK_2: donuts.push_back(peanut::Object(-cam.x, -cam.y, -cam.z + 4, "meshfiles/donut.facet")); break;
 				}
 			}
 		}
 
-		peanut::render(cam);
+		peanut::clear_screen();
+
+		peanut::render(cam, cubes);
+		peanut::render(cam, donuts);
+
+		peanut::update_screen();
 	}
 
 	SDL_Quit();
