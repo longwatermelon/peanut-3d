@@ -167,7 +167,7 @@ namespace peanut::peautils
 	}
 
 
-	void interpolate(point p0, point p1, std::vector<float>& vx, int w)
+	void interpolate(point p0, point p1, std::vector<float>& vx, std::vector<float>& vz, int w)
 	{
 		if ((int)p0.y < (int)p1.y)
 		{
@@ -184,6 +184,7 @@ namespace peanut::peautils
 				if (x > 1000) x = 1000;
 
 				vx[(int)y] = x;
+				vz[(int)y] = p0.z + (y - p0.y) * ((p1.z - p0.z) / (p1.y - p0.y));
 			}
 		}
 	}

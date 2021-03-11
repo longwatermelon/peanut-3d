@@ -57,7 +57,8 @@ namespace peanut::peautils
 				gfx.draw_filled_triangle(
 					{ projpoints[t.indexes[0]], projpoints[t.indexes[1]], projpoints[t.indexes[2]] },
 					{ origpoints[t.indexes[0]], origpoints[t.indexes[1]], origpoints[t.indexes[2]] },
-					xb
+					xb, zb,
+					{ (Uint8) ((t.indexes[0] * 100) % 255), (Uint8) ((t.indexes[1] * 100) % 255), (Uint8) ((t.indexes[2] * 100) % 255) }
 				);
 			}
 
@@ -67,6 +68,7 @@ namespace peanut::peautils
 	private:
 		float x, y, z;
 		boundsarray xb;
+		boundsarray zb;
 
 		peautils::mesh m;
 	};

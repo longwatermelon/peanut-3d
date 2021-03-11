@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 	bool running = true;
 	SDL_Event evt;
 
-	peanut::new_object(-0.5, 0, 3, "meshfiles/donut.facet");
+	peanut::new_object(-0.5, 0, 15, "meshfiles/donut.facet");
 
 	while (running)
 	{

@@ -21,6 +21,8 @@ namespace peanut::peautils
 			tex = SDL_CreateTexture(rend, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, screen_w, screen_h);
 			texbuf = new uint32_t[screen_w * screen_h];
 
+			depths = new float[screen_w * screen_h];
+
 			fullscreen_rect = { 0, 0, w, h };
 		}
 
@@ -44,7 +46,7 @@ namespace peanut::peautils
 		}
 
 
-		void draw_filled_triangle(pointgrp ps, pointgrp ops, boundsarray& xb)
+		void draw_filled_triangle(pointgrp ps, pointgrp ops, boundsarray& xb, boundsarray& zb, const SDL_Color& col)
 		{
 			// sort all points from lowest to highest y
 			if (ps.p1.y < ps.p0.y)
@@ -66,11 +68,13 @@ namespace peanut::peautils
 			}
 
 			xb.l = std::vector<float>(screen_w);
-			xb.r = std::vector<float>(screen_h);
+			xb.r = std::vector<float>(screen_w);
+			zb.l = std::vector<float>(screen_w);
+			zb.r = std::vector<float>(screen_w);
 
-			interpolate({ ps.p0.x, ps.p0.y, 1.f / ops.p0.z }, { ps.p1.x, ps.p1.y, 1.f / ops.p1.z }, xb.l, screen_w);
-			interpolate({ ps.p1.x, ps.p1.y, 1.f / ops.p1.z }, { ps.p2.x, ps.p2.y, 1.f / ops.p2.z }, xb.l, screen_w);
-			interpolate({ ps.p0.x, ps.p0.y, 1.f / ops.p0.z }, { ps.p2.x, ps.p2.y, 1.f / ops.p2.z }, xb.r, screen_w);
+			interpolate({ ps.p0.x, ps.p0.y, 1.f / ops.p0.z }, { ps.p1.x, ps.p1.y, 1.f / ops.p1.z }, xb.l, zb.l, screen_w);
+			interpolate({ ps.p1.x, ps.p1.y, 1.f / ops.p1.z }, { ps.p2.x, ps.p2.y, 1.f / ops.p2.z }, xb.l, zb.l, screen_w);
+			interpolate({ ps.p0.x, ps.p0.y, 1.f / ops.p0.z }, { ps.p2.x, ps.p2.y, 1.f / ops.p2.z }, xb.r, zb.r, screen_w);
 
 			if (ps.p2.y > 1000) ps.p2.y = 1000;
 			if (ps.p0.y < 0) ps.p0.y = 0;
@@ -82,7 +86,13 @@ namespace peanut::peautils
 
 				for (int i = minx; i < maxx; ++i)
 				{
-					texbuf[y * 1000 + i] = 0x00000000 | 255 << 16 | 255 << 8 | 255;
+					float iz = zb.l[y] + (i - xb.l[y]) * ((zb.r[y] - zb.l[y]) / (xb.r[y] - xb.l[y]));
+
+					if (iz > depths[y * 1000 + i])
+					{
+						texbuf[y * 1000 + i] = 0x00000000 | col.r << 16 | col.g << 8 | col.b;
+						depths[y * 1000 + i] = iz;
+					}
 				}
 			}
 		}
@@ -93,6 +103,7 @@ namespace peanut::peautils
 			for (int i = 0; i < screen_w * screen_h; ++i)
 			{
 				texbuf[i] = 0x000000;
+				depths[i] = 0.0f;
 			}
 		}
 
@@ -117,6 +128,8 @@ namespace peanut::peautils
 
 		SDL_Texture* tex;
 		uint32_t* texbuf;
+
+		float* depths;
 
 		SDL_Rect fullscreen_rect;
 	};
