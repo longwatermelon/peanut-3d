@@ -9,8 +9,10 @@ namespace peanut
 	std::vector<peautils::Object> objects;
 
 	peautils::matrix4 mproj;
+	peautils::matrix3 roty;
+	peautils::matrix3 rotx;
 	
-	void init(int w, int h, const char* title)
+	void init(int w, int h, const char* title, Camera& cam)
 	{
 		gfx = std::make_unique<peautils::Graphics>(w, h, title);
 
@@ -28,8 +30,20 @@ namespace peanut
 	{
 		SDL_RenderClear(gfx->getrend());
 
+		rotx = { {
+			{1, 0, 0},
+			{0, cosf(cam.va), sinf(cam.va)},
+			{0, -sinf(cam.va), cosf(cam.va)}
+		} };
+
+		roty = { {
+			{cosf(cam.ha), 0, sinf(cam.ha)},
+			{0, 1, 0},
+			{-sinf(cam.ha), 0, cosf(cam.ha)}
+		} };
+
 		for (auto& o : objects)
-			o.project(*gfx, mproj, cam);
+			o.project(*gfx, mproj, rotx, roty, cam);
 
 		SDL_RenderPresent(gfx->getrend());
 	}

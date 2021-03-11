@@ -17,7 +17,7 @@ namespace peanut::peautils
 		}
 
 
-		void project(Graphics& gfx, matrix4& proj, Camera& cam)
+		void project(Graphics& gfx, matrix4& proj, matrix3& rotx, matrix3& roty, Camera& cam)
 		{
 			std::vector<point> projpoints(m.points.size());
 			std::vector<point> origpoints(m.points.size());
@@ -30,6 +30,10 @@ namespace peanut::peautils
 				origp.x += x + cam.x;
 				origp.y += y + cam.y;
 				origp.z += z + cam.z;
+
+				// rotation
+				origp = matrix3_multiply(roty, origp);
+				origp = matrix3_multiply(rotx, origp);
 
 				origpoints[i] = origp;
 

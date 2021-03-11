@@ -132,6 +132,17 @@ namespace peanut::peautils
 		}
 	}
 
+	point matrix3_multiply(matrix3& mat, point& p)
+	{
+		point ret;
+
+		ret.x = p.x * mat.m[0][0] + p.y * mat.m[1][0] + p.z * mat.m[2][0];
+		ret.y = p.x * mat.m[0][1] + p.y * mat.m[1][1] + p.z * mat.m[2][1];
+		ret.z = p.x * mat.m[0][2] + p.y * mat.m[1][2] + p.z * mat.m[2][2];
+
+		return ret;
+	}
+
 
 	matrix4 make_projection(float fov, float ratio, float near, float far)
 	{

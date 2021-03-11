@@ -4,14 +4,14 @@
 
 int main(int argc, char** argv)
 {
-	peanut::init(1000, 1000, "test");
-
 	peanut::Camera cam(0.0f, 0.0f, 0.0f);
+
+	peanut::init(1000, 1000, "test", cam);	
 
 	bool running = true;
 	SDL_Event evt;
 
-	peanut::new_object(-0.5, 0, 3, "meshfiles/cube.facet");
+	peanut::new_object(-0.5, 0, 3, "meshfiles/donut.facet");
 
 	while (running)
 	{
@@ -23,8 +23,16 @@ int main(int argc, char** argv)
 			case SDL_KEYDOWN:
 				switch (evt.key.keysym.sym)
 				{
-				case SDLK_UP: cam.y += 0.1f; break;
-				case SDLK_DOWN: cam.y -= 0.1f; break;
+				case SDLK_SPACE: cam.y += 0.1f; break;
+				case SDLK_LSHIFT: cam.y -= 0.1f; break;
+				case SDLK_w: cam.z -= 0.1f; break;
+				case SDLK_s: cam.z += 0.1f; break;
+				case SDLK_a: cam.x += 0.1f; break;
+				case SDLK_d: cam.x -= 0.1f; break;
+				case SDLK_UP: cam.va -= 0.1f; break;
+				case SDLK_DOWN: cam.va += 0.1f; break;
+				case SDLK_RIGHT: cam.ha += 0.1f; break;
+				case SDLK_LEFT: cam.ha -= 0.1f; break;
 				}
 			}
 		}
