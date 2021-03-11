@@ -54,12 +54,15 @@ namespace peanut::peautils
 
 			for (auto& t : m.tris)
 			{
-				gfx.draw_filled_triangle(
-					{ projpoints[t.indexes[0]], projpoints[t.indexes[1]], projpoints[t.indexes[2]] },
-					{ origpoints[t.indexes[0]], origpoints[t.indexes[1]], origpoints[t.indexes[2]] },
-					xb, zb,
-					{ (Uint8) ((t.indexes[0] * 100) % 255), (Uint8) ((t.indexes[1] * 100) % 255), (Uint8) ((t.indexes[2] * 100) % 255) }
-				);
+				if (origpoints[t.indexes[0]].z > 1.0f || origpoints[t.indexes[1]].z > 1.0f || origpoints[t.indexes[2]].z > 1.0f)
+				{
+					gfx.draw_filled_triangle(
+						{ projpoints[t.indexes[0]], projpoints[t.indexes[1]], projpoints[t.indexes[2]] },
+						{ origpoints[t.indexes[0]], origpoints[t.indexes[1]], origpoints[t.indexes[2]] },
+						xb, zb,
+						{ (Uint8)((t.indexes[0] * 100) % 255), (Uint8)((t.indexes[1] * 100) % 255), (Uint8)((t.indexes[2] * 100) % 255) }
+					);
+				}
 			}
 
 			gfx.update_texture();
