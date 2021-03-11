@@ -33,6 +33,9 @@ int main(int argc, char** argv)
 				case SDLK_DOWN: cam.va += 0.1f; break;
 				case SDLK_RIGHT: cam.ha += 0.1f; break;
 				case SDLK_LEFT: cam.ha -= 0.1f; break;
+				case SDLK_0: peanut::objects.clear(); break;
+				case SDLK_1: peanut::new_object(-cam.x, -cam.y, cam.z + 4, "meshfiles/cube.facet"); break;
+				case SDLK_2: peanut::new_object(-cam.x, -cam.y, cam.z + 4, "meshfiles/donut.facet"); break;
 				}
 			}
 		}

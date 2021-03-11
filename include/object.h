@@ -50,7 +50,6 @@ namespace peanut::peautils
 				projpoints[i] = projp;
 			}
 
-			gfx.reset_texbuf();
 
 			for (auto& t : m.tris)
 			{
@@ -65,7 +64,6 @@ namespace peanut::peautils
 				}
 			}
 
-			gfx.update_texture();
 		}
 
 	private:

@@ -29,6 +29,7 @@ namespace peanut
 	void render(Camera& cam)
 	{
 		SDL_RenderClear(gfx->getrend());
+		gfx->reset_texbuf();
 
 		rotx = { {
 			{1, 0, 0},
@@ -44,6 +45,8 @@ namespace peanut
 
 		for (auto& o : objects)
 			o.project(*gfx, mproj, rotx, roty, cam);
+
+		gfx->update_texture();
 
 		SDL_RenderPresent(gfx->getrend());
 	}
