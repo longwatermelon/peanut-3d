@@ -154,6 +154,7 @@ namespace peanut::peautils
 				if (x > 1000) x = 1000;
 
 				vx[(int)y] = x;
+				// algebraically manipulated slope equality equation
 				vz[(int)y] = p0.z + (y - p0.y) * ((p1.z - p0.z) / (p1.y - p0.y));
 			}
 		}

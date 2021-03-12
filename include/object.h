@@ -40,7 +40,6 @@ namespace peanut
 				origpoints[i] = origp;
 
 				// projection
-				
 				if (origp.z != 0.f)
 				{
 					projp.x = origp.x / origp.z;
@@ -61,8 +60,7 @@ namespace peanut
 					gfx.draw_filled_triangle(
 						{ projpoints[t.indexes[0]], projpoints[t.indexes[1]], projpoints[t.indexes[2]] },
 						{ origpoints[t.indexes[0]], origpoints[t.indexes[1]], origpoints[t.indexes[2]] },
-						xb, zb,
-						{ 255, 255, 255 }
+						xb, zb
 					);
 				}
 				else if (origpoints[t.indexes[0]].z >= 1.0f || origpoints[t.indexes[1]].z >=1.0f || origpoints[t.indexes[2]].z >= 1.0f)
@@ -90,8 +88,11 @@ namespace peanut
 
 					if (opg.p1.z < 1.f)
 					{
+						// ratio is the same value for x, y, and z meaning we can get the clipped points' x and y using this ratio
+						// percentage of clipped z point value out of the full segment from p0 to p2
 						float ratio = (1.f - opg.p0.z) / (opg.p2.z - opg.p0.z);
 
+						// take the ratio and use it as a percentage, multiply it against total length of x and y segments
 						opg.p0.x += (opg.p2.x - opg.p0.x) * ratio;
 						opg.p0.y += (opg.p2.y - opg.p0.y) * ratio;
 						opg.p0.z = 1.f;
@@ -108,9 +109,9 @@ namespace peanut
 						center_and_scale(ppg.p0, gfx.getw(), gfx.geth());
 						center_and_scale(ppg.p1, gfx.getw(), gfx.geth());
 
-						gfx.draw_filled_triangle(ppg, opg, xb, zb, { 255, 255, 255 });
+						gfx.draw_filled_triangle(ppg, opg, xb, zb);
 					}
-					else
+					else // 1 point behind near plane
 					{
 						point p01, p02;
 
@@ -126,6 +127,7 @@ namespace peanut
 						p02.y = opg.p0.y + (opg.p2.y - opg.p0.y) * ratio;
 						p02.z = 1.f;
 
+						// create two new triangles out of 4 sided clipped shape
 						point projp01, projp02;
 						projp01 = p01;
 						projp02 = p02;
@@ -133,8 +135,17 @@ namespace peanut
 						center_and_scale(projp01, gfx.getw(), gfx.geth());
 						center_and_scale(projp02, gfx.getw(), gfx.geth());
 
-						gfx.draw_filled_triangle({ projp01, projp02, ppg.p2 }, { p01, p02, opg.p2 }, xb, zb, { 255, 255, 255 });
-						gfx.draw_filled_triangle({ projp01, ppg.p1, ppg.p2 }, { p01, opg.p1, opg.p2 }, xb, zb, { 255, 255, 255 });
+						/*
+						*     p1 ___________p2
+						*        \         /
+						*         \       /
+						*------projp01---projp02------- (near plane)
+						*           \   /
+						*		     p0
+						*/
+
+						gfx.draw_filled_triangle({ projp01, projp02, ppg.p2 }, { p01, p02, opg.p2 }, xb, zb);
+						gfx.draw_filled_triangle({ projp01, ppg.p1, ppg.p2 }, { p01, opg.p1, opg.p2 }, xb, zb);
 					}
 				}
 			}
