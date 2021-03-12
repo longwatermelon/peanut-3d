@@ -16,9 +16,7 @@ int main(int argc, char** argv)
 	std::vector<peanut::Object> cubes;
 	std::vector<peanut::Object> donuts;
 
-	//cubes.push_back(peanut::Object(0.0f, -3.7f, 2.0f, "meshfiles/triangle.facet"));
-
-	SDL_WarpMouseInWindow(peanut::gfx->getwin(), 500, 500);
+	cubes.push_back(peanut::Object(0.0f, 0.0f, 30.0f, "meshfiles/spirala.facet"));
 
 	while (running)
 	{

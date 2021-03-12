@@ -42,6 +42,32 @@ namespace peanut
 				// projection
 				if (origp.z != 0.f)
 				{
+					// imagine using a projection matrix lmfao
+					// use linear interpolation to project onto the screen
+
+					/*
+					*                       origp (x, y, z)
+					*                        /
+					* --------------------projp-------------------- near plane (0, 0, 1)
+					*                      /
+					*                    cam (0, 0, 0)
+					*/
+
+					/* (projp.x - cam.x) / (origp.x - cam.x)
+					* 
+					*  the ratio between (projp.x - cam.x) / (origp.x - cam.x) is the same as the ratio between (projp.y - cam.y) / (orip.y - cam.y), which is the same as the ratio between (projp.z - cam.z) / (origp.z - cam.z).
+					*  this only works because all lines we calculate are linear.
+					* 
+					*  we can treat camera as position (0, 0, 0) and origp as position (origp.x, origp.y, origp.z) because the point positions have already been adjusted for object position and camera position.
+					*  meaning we can remove every value associated with cam in the equation.
+					* 
+					*  projp.x / origp.x == projp.y / origp.y == projp.z / origp.z
+					*  we can treat projp.z as 1 because we define the near plane's z as 1.f
+					*  i should not have hard coded that but it doesnt really matter
+					*  projp.x / origp.x == 1 / origp.z
+					*/
+
+					// wow this is a pretty simple equation
 					projp.x = origp.x / origp.z;
 					projp.y = origp.y / origp.z;
 				}

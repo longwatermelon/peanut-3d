@@ -80,7 +80,7 @@ namespace peanut::peautils
 
 			// light is bugged since not all triangles have the same normal direction despite being right next to each other
 			// so i used the absolute value of the dot product of normal and light
-			float shade = 50 + 10000 * std::abs(normal.x * light.x + normal.y * light.y + normal.z * light.z) / (dist * dist * dist);
+			float shade = 50 + 100000 * std::abs(normal.x * light.x + normal.y * light.y + normal.z * light.z) / (dist * dist * dist);
 			if (shade > 255.f) shade = 255.f;
 
 			xb.l = std::vector<float>(screen_w);
@@ -104,7 +104,7 @@ namespace peanut::peautils
 				// start from the leftmost x at xb.l[y] (left bound) and put a pixel down until xb.r[y] (right bound)
 				for (int i = minx; i < maxx; ++i)
 				{
-					// algebraically manipulated equality of slopes calculated using points on the same line
+					// same algorithm as the one used in the interpolate function
 					float iz = zb.l[y] + (i - xb.l[y]) * ((zb.r[y] - zb.l[y]) / (xb.r[y] - xb.l[y]));
 
 					if (iz > depths[y * 1000 + i])

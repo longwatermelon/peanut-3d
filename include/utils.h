@@ -115,6 +115,9 @@ namespace peanut::peautils
 
 	point matrix3_multiply(matrix3& mat, point& p)
 	{
+		// hard coded matrix multiplication tends to be faster in both coding time and application performance
+		// than actually using my brain and making a general purpose matrix multiplication function
+
 		point ret;
 
 		ret.x = p.x * mat.m[0][0] + p.y * mat.m[1][0] + p.z * mat.m[2][0];
@@ -154,7 +157,23 @@ namespace peanut::peautils
 				if (x > 1000) x = 1000;
 
 				vx[(int)y] = x;
-				// algebraically manipulated slope equality equation
+
+				/*
+				*          b
+				*         / \
+				*        m   \
+				*       /     \
+				*      a       \
+				* ------------------------------------------- near plane				
+				*/
+
+				// we can compare z ratios, and since the line is straight that ratio will hold true for comparison of any coordinates
+				// (mz - az) / (bz - az) == (my - ay) / (by - ay)
+				// cross multiply and simplify
+				// (mz - az) / (my - ay) == (bz - az) / (by - ay)
+				// solve for mz
+				// mz = az + (my - ay)((bz - az) / (by - ay))
+				// a is p0, b is p1, m is a point at (vx[y], y)
 				vz[(int)y] = p0.z + (y - p0.y) * ((p1.z - p0.z) / (p1.y - p0.y));
 			}
 		}
