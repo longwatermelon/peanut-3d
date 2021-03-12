@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <array>
+#include <iostream>
 
 
 namespace peanut::peautils
@@ -169,14 +170,18 @@ namespace peanut::peautils
 
 	void interpolate(point p0, point p1, std::vector<float>& vx, std::vector<float>& vz, int w)
 	{
+		float ystart, yend;
 		if ((int)p0.y < (int)p1.y)
 		{
 			float slope = (p1.x - p0.x) / (p1.y - p0.y);
 
-			if (p0.y < 0.0f) p0.y = 0.0f;
-			if (p1.y > 1000.0f) p1.y = 1000.0f;
+			if (p0.y < 0.0f) ystart = 0.f;
+			else ystart = p0.y;
 
-			for (float y = p0.y; y < p1.y; ++y)
+			if (p1.y > 1000.0f) yend = 1000.f;
+			else yend = p1.y;
+
+			for (float y = ystart; y < yend; ++y)
 			{
 				float x = p0.x + (slope * (y - p0.y));
 
@@ -188,4 +193,38 @@ namespace peanut::peautils
 			}
 		}
 	}
+
+
+	point normalize_vector(point p)
+	{
+		float len = std::sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
+
+		p.x /= len;
+		p.y /= len;
+		p.z /= len;
+
+		return p;
+	}
+
+
+	point triangle_normal_vector(pointgrp pg)
+	{
+		point v, w, n;
+		v.x = pg.p1.x - pg.p0.x;
+		v.y = pg.p1.y - pg.p0.y;
+		v.z = pg.p1.z - pg.p0.z;
+
+		w.x = pg.p2.x - pg.p0.x;
+		w.y = pg.p2.y - pg.p0.y;
+		w.z = pg.p2.z - pg.p0.z;
+
+		n.x = (v.y * w.z) - (v.z * w.y);
+		n.y = (v.z * w.x) - (v.x * w.z);
+		n.z = (v.x * w.y) - (v.y * w.x);
+
+		n = normalize_vector(n);
+
+		return n;
+	}
+
 }

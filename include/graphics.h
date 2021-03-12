@@ -83,7 +83,7 @@ namespace peanut::peautils
 			{
 				int minx = std::min(xb.l[y], xb.r[y]);
 				int maxx = std::max(xb.l[y], xb.r[y]);
-
+				
 				for (int i = minx; i < maxx; ++i)
 				{
 					float iz = zb.l[y] + (i - xb.l[y]) * ((zb.r[y] - zb.l[y]) / (xb.r[y] - xb.l[y]));

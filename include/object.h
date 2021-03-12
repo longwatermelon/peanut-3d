@@ -55,7 +55,7 @@ namespace peanut
 
 			for (auto& t : m.tris)
 			{
-				if (origpoints[t.indexes[0]].z > 1.0f || origpoints[t.indexes[1]].z > 1.0f || origpoints[t.indexes[2]].z > 1.0f)
+				if (origpoints[t.indexes[0]].z > 1.0f && origpoints[t.indexes[1]].z > 1.0f && origpoints[t.indexes[2]].z > 1.0f)
 				{
 					gfx.draw_filled_triangle(
 						{ projpoints[t.indexes[0]], projpoints[t.indexes[1]], projpoints[t.indexes[2]] },
