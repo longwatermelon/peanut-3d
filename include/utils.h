@@ -227,4 +227,13 @@ namespace peanut::peautils
 		return n;
 	}
 
+
+	void center_and_scale(point& p, int w, int h)
+	{
+		p.x += 1.0f;
+		p.y += 1.0f;
+
+		p.x *= 0.5f * w;
+		p.y *= 0.5f * h;
+	}
 }

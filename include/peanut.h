@@ -15,7 +15,7 @@ namespace peanut
 	{
 		gfx = std::make_unique<peautils::Graphics>(w, h, title);
 
-		mproj = peautils::make_projection(90.0f, w / h, 1.0f, 1000.0f);
+		mproj = peautils::make_projection(110.0f, w / h, 1.0f, 1000.0f);
 	}
 
 

@@ -67,6 +67,14 @@ namespace peanut::peautils
 				swap_points(ops.p2, ops.p1);
 			}
 
+			point normal = triangle_normal_vector({ ops.p0, ops.p1, ops.p2 });
+			point light = { 20, -20, -10 };
+			light.x -= (ops.p0.x + ops.p1.x + ops.p2.x) / 3.f;
+			light.y -= (ops.p0.y + ops.p1.y + ops.p2.y) / 3.f;
+			light.z -= (ops.p0.z + ops.p1.z + ops.p2.z) / 3.f;
+
+			float shade = 50 + 200 * std::abs(normal.x * light.x + normal.y * light.y + normal.z * light.z) / std::sqrt(light.x * light.x + light.y * light.y + light.z * light.z);
+
 			xb.l = std::vector<float>(screen_w);
 			xb.r = std::vector<float>(screen_w);
 			zb.l = std::vector<float>(screen_w);
@@ -90,7 +98,7 @@ namespace peanut::peautils
 
 					if (iz > depths[y * 1000 + i])
 					{
-						texbuf[y * 1000 + i] = 0x00000000 | col.r << 16 | col.g << 8 | col.b;
+						texbuf[y * 1000 + i] = 0x00000000 | (int)shade << 16 | (int)shade << 8 | (int)shade;
 						depths[y * 1000 + i] = iz;
 					}
 				}
