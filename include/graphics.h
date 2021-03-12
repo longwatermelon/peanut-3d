@@ -80,7 +80,7 @@ namespace peanut::peautils
 
 			// light is bugged since not all triangles have the same normal direction despite being right next to each other
 			// so i used the absolute value of the dot product of normal and light
-			float shade = 50 + 200 * std::abs(normal.x * light.x + normal.y * light.y + normal.z * light.z) / dist;
+			float shade = 50 + 100 * std::abs(normal.x * light.x + normal.y * light.y + normal.z * light.z) / dist;
 			if (shade > 255.f) shade = 255.f;
 
 			xb.l = std::vector<float>(screen_w);
