@@ -113,6 +113,104 @@ namespace peanut::peautils
 	}
 
 
+	std::vector<std::string> split_string(std::string str, const std::string& delim)
+	{
+		std::vector<std::string> ret;
+
+		size_t pos = 0;
+		std::string token;
+
+		while ((pos = str.find(delim)) != std::string::npos)
+		{
+			token = str.substr(0, pos);
+			ret.emplace_back(token);
+
+			str.erase(0, pos + delim.size());
+		}
+
+		ret.emplace_back(str);
+
+		return ret;
+	}
+
+
+	std::array<triangle, 2> triangles_from_face(const std::array<int, 4>& face)
+	{
+		std::array<triangle, 2> ret{};
+
+		ret[0] = { face[0] - 1, face[1] - 1, face[2] - 1 };
+		ret[1] = { face[2] - 1, face[0] - 1, face[3] - 1 };
+
+		return ret;
+	}
+
+
+	mesh load_blender_object(const char* path)
+	{
+		std::fstream f(path);
+		std::string line;
+
+		std::vector<point> points;
+		std::vector<triangle> tris;
+		std::vector<std::array<int, 4>> faces;
+
+		while (std::getline(f, line))
+		{
+			std::vector<std::string> sline = split_string(line, " ");
+
+			if (sline[0] == "o")
+			{
+				while (std::getline(f, line))
+				{
+					sline = split_string(line, " ");
+
+					std::array<float, 3> arr;
+
+					if (sline[0] == "o") continue;
+
+					if (sline[0] == "v")
+					{
+						for (int i = 1; i < 4; ++i)
+						{
+							std::stringstream(sline[i]) >> arr[i - 1];
+						}
+
+						points.emplace_back(point{ arr[0], arr[1], arr[2] });
+					}
+
+					if (sline[0] == "f")
+					{
+						std::array<int, 4> face;
+						for (int i = 1; i < sline.size(); ++i)
+						{
+							auto splitstr = split_string(sline[i], "/");
+
+							std::stringstream(splitstr[0]) >> face[i - 1];
+						}
+
+						bool tri = (sline.size() == 4);
+
+						if (!tri)
+							faces.emplace_back(face);
+						else
+							tris.emplace_back(triangle{ face[1] - 1, face[0] - 1, face[2] - 1 });
+					}
+				}
+			}
+		}
+
+		for (auto& f : faces)
+		{
+			std::array<triangle, 2> trif = triangles_from_face(f);
+
+			tris.emplace_back(trif[0]);
+			tris.emplace_back(trif[1]);
+		}
+
+		return { points, tris };
+	}
+
+
 	point matrix3_multiply(matrix3& mat, point& p)
 	{
 		// hard coded matrix multiplication tends to be faster in both coding time and application performance

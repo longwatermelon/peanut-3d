@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 	std::vector<peanut::Object> cubes;
 	std::vector<peanut::Object> donuts;
 
-	cubes.push_back(peanut::Object(0.0f, 0.0f, 30.0f, "meshfiles/spirala.facet"));
+	cubes.push_back(peanut::Object(0.0f, 0.0f, 3.0f, "meshfiles/untitled.obj"));
 
 	while (running)
 	{

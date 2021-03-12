@@ -15,7 +15,7 @@ namespace peanut
 		Object(float x, float y, float z, const char* path)
 			: x(x), y(y), z(z)
 		{
-			m = read_facet(path);
+			m = load_blender_object(path);
 		}
 
 
