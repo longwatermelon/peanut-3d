@@ -68,12 +68,12 @@ namespace peanut::peautils
 			}
 
 			point normal = triangle_normal_vector({ ops.p0, ops.p1, ops.p2 });
-			point light = { 20, -20, -10 };
+			point light = { 0, 0, 0 };
 			light.x -= (ops.p0.x + ops.p1.x + ops.p2.x) / 3.f;
 			light.y -= (ops.p0.y + ops.p1.y + ops.p2.y) / 3.f;
 			light.z -= (ops.p0.z + ops.p1.z + ops.p2.z) / 3.f;
 
-			float shade = 50 + 200 * std::abs(normal.x * light.x + normal.y * light.y + normal.z * light.z) / std::sqrt(light.x * light.x + light.y * light.y + light.z * light.z);
+			float shade = 10 + 200 * std::abs(normal.x * light.x + normal.y * light.y + normal.z * light.z) / std::sqrt(light.x * light.x + light.y * light.y + light.z * light.z);
 
 			xb.l = std::vector<float>(screen_w);
 			xb.r = std::vector<float>(screen_w);
@@ -127,6 +127,7 @@ namespace peanut::peautils
 		int geth() { return screen_h; }
 
 		SDL_Renderer* getrend() { return rend; }
+		SDL_Window* getwin() { return window; }
 
 	private:
 		SDL_Window* window{ nullptr };

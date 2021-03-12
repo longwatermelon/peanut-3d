@@ -19,7 +19,7 @@ namespace peanut
 		}
 
 
-		void project(Graphics& gfx, matrix4& proj, matrix3& rotx, matrix3& roty, Camera& cam)
+		void project(Graphics& gfx, matrix3& rotx, matrix3& roty, Camera& cam)
 		{
 			std::vector<point> projpoints(m.points.size());
 			std::vector<point> origpoints(m.points.size());

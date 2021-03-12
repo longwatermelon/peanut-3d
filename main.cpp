@@ -18,6 +18,8 @@ int main(int argc, char** argv)
 
 	//cubes.push_back(peanut::Object(0.0f, -3.7f, 2.0f, "meshfiles/triangle.facet"));
 
+	SDL_WarpMouseInWindow(peanut::gfx->getwin(), 500, 500);
+
 	while (running)
 	{
 		while (SDL_PollEvent(&evt))
@@ -46,26 +48,18 @@ int main(int argc, char** argv)
 			if (GetAsyncKeyState('S') < 0) cam.z += 0.1f;
 			if (GetAsyncKeyState('A') < 0) cam.x += 0.1f;
 			if (GetAsyncKeyState('D') < 0) cam.x -= 0.1f;
-			if (GetAsyncKeyState(VK_UP) < 0) cam.va -= 0.1f;
-			if (GetAsyncKeyState(VK_DOWN) < 0) cam.va += 0.1f;
-			if (GetAsyncKeyState(VK_RIGHT) < 0) cam.ha += 0.1f;
-			if (GetAsyncKeyState(VK_LEFT) < 0) cam.ha -= 0.1f;
-			if (GetAsyncKeyState(VK_SHIFT) < 0) cam.y -= 0.1f;
-			if (GetAsyncKeyState(VK_SPACE) < 0) cam.y += 0.1f;
-
-			
+			if (GetAsyncKeyState(VK_UP) < 0) cam.va -= 0.05f;
+			if (GetAsyncKeyState(VK_DOWN) < 0) cam.va += 0.05f;
+			if (GetAsyncKeyState(VK_RIGHT) < 0) cam.ha += 0.05f;
+			if (GetAsyncKeyState(VK_LEFT) < 0) cam.ha -= 0.05f;
+			if (GetAsyncKeyState(VK_SHIFT) < 0) cam.y -= 0.05f;
+			if (GetAsyncKeyState(VK_SPACE) < 0) cam.y += 0.05f;
 
 			if (GetAsyncKeyState(VK_ESCAPE))
 			{
 				SDL_SetRelativeMouseMode(SDL_FALSE);
 				focused = false;
 			}
-
-			int x, y;
-			SDL_GetMouseState(&x, &y);
-
-			cam.ha = ((float)x / peanut::gfx->getw()) * (4 * 3.1415) - (2 * 3.1415);
-			cam.va = ((float)y / peanut::gfx->geth()) * (4 * 3.1415) - (2 * 3.1415);
 		}
 		
 		if (GetAsyncKeyState(VK_TAB))

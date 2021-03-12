@@ -7,15 +7,12 @@ namespace peanut
 {
 	std::unique_ptr<peautils::Graphics> gfx;
 
-	peautils::matrix4 mproj;
 	peautils::matrix3 roty;
 	peautils::matrix3 rotx;
 	
 	void init(int w, int h, const char* title, Camera& cam)
 	{
 		gfx = std::make_unique<peautils::Graphics>(w, h, title);
-
-		mproj = peautils::make_projection(110.0f, w / h, 1.0f, 1000.0f);
 	}
 
 
@@ -34,7 +31,7 @@ namespace peanut
 		} };
 
 		for (auto& o : objects)
-			o.project(*gfx, mproj, rotx, roty, cam);
+			o.project(*gfx, rotx, roty, cam);
 
 		gfx->update_texture();
 	}
