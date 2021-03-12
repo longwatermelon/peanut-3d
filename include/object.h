@@ -167,7 +167,7 @@ namespace peanut
 						*         \       /
 						*------projp01---projp02------- (near plane)
 						*           \   /
-						*		     p0
+						*            p0
 						*/
 
 						gfx.draw_filled_triangle({ projp01, projp02, ppg.p2 }, { p01, p02, opg.p2 }, xb, zb);
