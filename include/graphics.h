@@ -66,20 +66,17 @@ namespace peanut::peautils
 				swap_points(ps.p2, ps.p1);
 				swap_points(ops.p2, ops.p1);
 			}
-
+			
+			// i do not understand the derivation for these light calculations i just took some equations off the internet
 			point normal = triangle_normal_vector({ ops.p0, ops.p1, ops.p2 });
 			point light = { 0, 0, 0 };
 
-			// take distance from light to triangle
-			// brightness should be inversely proportional to distance so the shade is divided by the distance at the end of the calculation
 			light.x -= (ops.p0.x + ops.p1.x + ops.p2.x) / 3.f;
 			light.y -= (ops.p0.y + ops.p1.y + ops.p2.y) / 3.f;
 			light.z -= (ops.p0.z + ops.p1.z + ops.p2.z) / 3.f;
 
 			float dist = std::sqrt(light.x * light.x + light.y * light.y + light.z * light.z);
 
-			// light is bugged since not all triangles have the same normal direction despite being right next to each other
-			// so i used the absolute value of the dot product of normal and light
 			float shade = 50 + 100 * std::abs(normal.x * light.x + normal.y * light.y + normal.z * light.z) / dist;
 			if (shade > 255.f) shade = 255.f;
 
