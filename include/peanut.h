@@ -6,7 +6,7 @@
 namespace peanut
 {
 	std::unique_ptr<peautils::Graphics> gfx;
-
+	
 	peautils::matrix3 roty;
 	peautils::matrix3 rotx;
 	

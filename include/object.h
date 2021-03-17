@@ -7,20 +7,20 @@
 
 namespace peanut
 {
-	using namespace peautils;
-
 	class Object
 	{
 	public:
 		Object(float x, float y, float z, const char* path)
 			: x(x), y(y), z(z)
 		{
-			m = load_blender_object(path);
+			m = peautils::load_blender_object(path);
 		}
 
 
-		void project(Graphics& gfx, matrix3& rotx, matrix3& roty, Camera& cam)
+		void project(peautils::Graphics& gfx, peautils::matrix3& rotx, peautils::matrix3& roty, Camera& cam)
 		{
+			using namespace peautils;
+
 			std::vector<point> projpoints(m.points.size());
 			std::vector<point> origpoints(m.points.size());
 
@@ -180,9 +180,9 @@ namespace peanut
 
 	private:
 		float x, y, z;
-		boundsarray xb;
-		boundsarray zb;
+		peautils::boundsarray xb;
+		peautils::boundsarray zb;
 
-		mesh m;
+		peautils::mesh m;
 	};
 }

@@ -90,10 +90,10 @@ namespace peanut::peautils
 			interpolate({ ps.p1.x, ps.p1.y, 1.f / ops.p1.z }, { ps.p2.x, ps.p2.y, 1.f / ops.p2.z }, xb.l, zb.l, screen_w);
 			interpolate({ ps.p0.x, ps.p0.y, 1.f / ops.p0.z }, { ps.p2.x, ps.p2.y, 1.f / ops.p2.z }, xb.r, zb.r, screen_w);
 
-			if (ps.p2.y > 1000) ps.p2.y = 1000;
-			if (ps.p0.y < 0) ps.p0.y = 0;
+			if (ps.p2.y > 1000) ps.p2.y = 1000.f;
+			if (ps.p0.y < 0) ps.p0.y = 0.f;
 
-			for (int y = (int)ps.p0.y; y < (int)ps.p2.y; ++y)
+			for (int y = (int)(ps.p0.y); y < (int)(ps.p2.y); ++y)
 			{
 				int minx = std::min(xb.l[y], xb.r[y]);
 				int maxx = std::max(xb.l[y], xb.r[y]);
@@ -107,7 +107,6 @@ namespace peanut::peautils
 					if (iz > depths[y * 1000 + i])
 					{
 						// drawing an array of colors to the screen is much faster than individually drawing out pixels
-						if (shade < 10.f) std::cout << "error\n";
 						texbuf[y * 1000 + i] = 0x00000000 | (int)shade << 16 | (int)shade << 8 | (int)shade;
 						depths[y * 1000 + i] = iz;
 					}
@@ -121,7 +120,7 @@ namespace peanut::peautils
 			for (int i = 0; i < screen_w * screen_h; ++i)
 			{
 				texbuf[i] = 0x000000;
-				depths[i] = 0.0f;
+				depths[i] = -1e10f;
 			}
 		}
 
