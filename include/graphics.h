@@ -99,7 +99,7 @@ namespace peanut::peautils
 				int maxx = std::max(xb.l[y], xb.r[y]);
 				
 				// start from the leftmost x at xb.l[y] (left bound) and put a pixel down until xb.r[y] (right bound)
-				for (int i = minx; i < maxx; ++i)
+				for (int i = minx + 1; i <= maxx; ++i)
 				{
 					// same algorithm as the one used in the interpolate function
 					float iz = zb.l[y] + (i - xb.l[y]) * ((zb.r[y] - zb.l[y]) / (xb.r[y] - xb.l[y]));
@@ -107,6 +107,7 @@ namespace peanut::peautils
 					if (iz > depths[y * 1000 + i])
 					{
 						// drawing an array of colors to the screen is much faster than individually drawing out pixels
+						if (shade < 10.f) std::cout << "error\n";
 						texbuf[y * 1000 + i] = 0x00000000 | (int)shade << 16 | (int)shade << 8 | (int)shade;
 						depths[y * 1000 + i] = iz;
 					}
