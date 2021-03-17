@@ -85,6 +85,8 @@ namespace peanut::peautils
 			zb.l = std::vector<float>(screen_w);
 			zb.r = std::vector<float>(screen_w);
 
+			ps.p0.y -= 1.f;
+			ps.p2.y += 1.f;
 			
 			interpolate({ ps.p0.x, ps.p0.y, 1.f / ops.p0.z }, { ps.p1.x, ps.p1.y, 1.f / ops.p1.z }, xb.l, zb.l, screen_w);
 			interpolate({ ps.p1.x, ps.p1.y, 1.f / ops.p1.z }, { ps.p2.x, ps.p2.y, 1.f / ops.p2.z }, xb.l, zb.l, screen_w);
