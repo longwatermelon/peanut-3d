@@ -175,8 +175,11 @@ namespace peanut
 					}
 				}
 			}
-
 		}
+
+
+		peautils::mesh mesh() { return m; }
+		peautils::point coords() { return { x, y, z }; }
 
 	private:
 		float x, y, z;
