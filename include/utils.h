@@ -41,7 +41,7 @@ namespace peanut::peautils
 	};
 
 
-	mesh read_facet(const char* path)
+	inline mesh read_facet(const char* path)
 	{
 		std::fstream f(path);
 
@@ -113,7 +113,7 @@ namespace peanut::peautils
 	}
 
 
-	std::vector<std::string> split_string(std::string str, const std::string& delim)
+	inline std::vector<std::string> split_string(std::string str, const std::string& delim)
 	{
 		std::vector<std::string> ret;
 
@@ -134,7 +134,7 @@ namespace peanut::peautils
 	}
 
 
-	std::array<triangle, 2> triangles_from_face(const std::array<int, 4>& face)
+	inline std::array<triangle, 2> triangles_from_face(const std::array<int, 4>& face)
 	{
 		std::array<triangle, 2> ret{};
 
@@ -145,7 +145,7 @@ namespace peanut::peautils
 	}
 
 
-	mesh load_blender_object(const char* path)
+	inline mesh load_blender_object(const char* path)
 	{
 		std::fstream f(path);
 		std::string line;
@@ -211,7 +211,7 @@ namespace peanut::peautils
 	}
 
 
-	point matrix3_multiply(matrix3& mat, point& p)
+	inline point matrix3_multiply(matrix3& mat, point& p)
 	{
 		// hard coded matrix multiplication tends to be faster in both coding time and application performance
 		// than actually using my brain and making a general purpose matrix multiplication function
@@ -226,7 +226,7 @@ namespace peanut::peautils
 	}
 
 
-	void swap_points(point& p1, point& p2)
+	inline void swap_points(point& p1, point& p2)
 	{
 		point temp = p2;
 		p2 = p1;
@@ -234,7 +234,7 @@ namespace peanut::peautils
 	}
 
 
-	void interpolate(point p0, point p1, std::vector<float>& vx, std::vector<float>& vz, int w)
+	inline void interpolate(point p0, point p1, std::vector<float>& vx, std::vector<float>& vz, int w)
 	{
 		float ystart, yend;
 		if ((int)p0.y < (int)p1.y)
@@ -278,7 +278,7 @@ namespace peanut::peautils
 	}
 
 
-	point normalize_vector(point p)
+	inline point normalize_vector(point p)
 	{
 		float len = std::sqrt(p.x * p.x + p.y * p.y + p.z * p.z);
 
@@ -290,7 +290,7 @@ namespace peanut::peautils
 	}
 
 
-	point triangle_normal_vector(pointgrp pg)
+	inline point triangle_normal_vector(pointgrp pg)
 	{
 		point v, w, n;
 		v.x = pg.p1.x - pg.p0.x;
@@ -311,7 +311,7 @@ namespace peanut::peautils
 	}
 
 
-	void center_and_scale(point& p, int w, int h)
+	inline void center_and_scale(point& p, int w, int h)
 	{
 		p.x += 1.0f;
 		p.y += 1.0f;

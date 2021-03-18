@@ -5,18 +5,18 @@
 
 namespace peanut
 {
-	std::unique_ptr<peautils::Graphics> gfx;
+	inline std::unique_ptr<peautils::Graphics> gfx;
 	
-	peautils::matrix3 roty;
-	peautils::matrix3 rotx;
+	inline peautils::matrix3 roty;
+	inline peautils::matrix3 rotx;
 	
-	void init(int w, int h, const char* title, Camera& cam)
+	inline void init(int w, int h, const char* title, Camera& cam)
 	{
 		gfx = std::make_unique<peautils::Graphics>(w, h, title);
 	}
 
 
-	void render(Camera& cam, std::vector<Object>& objects)
+	inline void render(Camera& cam, std::vector<Object>& objects)
 	{
 		rotx = { {
 			{1, 0, 0},
@@ -37,13 +37,13 @@ namespace peanut
 	}
 
 
-	void clear_screen()
+	inline void clear_screen()
 	{
 		SDL_RenderClear(gfx->getrend());
 		gfx->reset_texbuf();
 	}
 
-	void update_screen()
+	inline void update_screen()
 	{
 		SDL_RenderPresent(gfx->getrend());
 	}
