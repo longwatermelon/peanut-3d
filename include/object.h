@@ -16,6 +16,8 @@ namespace peanut
 			m = peautils::load_blender_object(path);
 		}
 
+		Object() = default;
+
 
 		void project(peautils::Graphics& gfx, peautils::matrix3& rotx, peautils::matrix3& roty, Camera& cam)
 		{
@@ -180,6 +182,13 @@ namespace peanut
 
 		peautils::mesh mesh() { return m; }
 		peautils::point coords() { return { x, y, z }; }
+
+		void move(float x, float y, float z)
+		{
+			this->x += x;
+			this->y += y;
+			this->z += z;
+		}
 
 	private:
 		float x, y, z;
