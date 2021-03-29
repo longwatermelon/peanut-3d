@@ -265,7 +265,7 @@ namespace peanut::peautils
 				* ------------------------------------------- near plane				
 				*/
 
-				// we can compare z ratios, and since the line is straight that ratio will hold true for comparison of any coordinates
+				// we can take a.z-m.z/a.z-b.z and it will be the same value as a.x-m.x/a.x-b.x and a.y-m.y/a.y-b.y because the line is linear
 				// (mz - az) / (bz - az) == (my - ay) / (by - ay)
 				// cross multiply and simplify
 				// (mz - az) / (my - ay) == (bz - az) / (by - ay)
