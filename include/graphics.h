@@ -48,7 +48,6 @@ namespace peanut::peautils
 
 		void draw_filled_triangle(pointgrp ps, pointgrp ops, boundsarray& xb, boundsarray& zb)
 		{
-			// sort all points from lowest to highest y
 			if (ps.p1.y < ps.p0.y)
 			{
 				swap_points(ps.p1, ps.p0);
@@ -67,7 +66,6 @@ namespace peanut::peautils
 				swap_points(ops.p2, ops.p1);
 			}
 			
-			// i do not understand the derivation for these light calculations i just took some equations off the internet
 			point normal = triangle_normal_vector({ ops.p0, ops.p1, ops.p2 });
 			point light = { 0, 0, 0 };
 
@@ -100,7 +98,6 @@ namespace peanut::peautils
 				int minx = std::min(xb.l[y], xb.r[y]);
 				int maxx = std::max(xb.l[y], xb.r[y]);
 				
-				// start from the leftmost x at xb.l[y] (left bound) and put a pixel down until xb.r[y] (right bound)
 				for (int i = minx + 1; i <= maxx; ++i)
 				{
 					// same algorithm as the one used in the interpolate function
